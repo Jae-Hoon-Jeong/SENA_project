@@ -60,7 +60,9 @@ Annotation archive: PAIP2020 `training_data.zip`, SHA-256 `ac2bc8c0452ee898a85a6
   system.json `19835c09…6cf02`, `wsi_infer.py` `3b5035b2…288a`), full-slide inference, 256-px tiles / 64-px overlap.
 - Eff / Cls (available now): server-34 outputs of 2026-10-04 (`run_paipfull.sh`; Eff batch 1, Cls batch 4).
   Source parquet SHA-256: 44 Eff `3133a356…7e5`, 44 Cls `2fe82f02…5887`, 03 Eff `a6221018…11ce`, 03 Cls `21f71097…e7a`.
-- Seg / Full: same package, inference in progress (to be added).
+- Seg / Full: same package and settings, server 32 (`~/envs/sena34`, pip-freeze identical to the server-34 env),
+  `run_segfull.sh` / `run_full_b1.sh`, batch 1 (the release allows batch > 1 only for Eff/Cls). Added per slide as
+  each run finishes. 03 Seg source parquet SHA-256 `06267283…242b5`.
 
 | slide | mode | nuclei | files | bytes |
 |---|---|---|---|---|
@@ -68,6 +70,7 @@ Annotation archive: PAIP2020 `training_data.zip`, SHA-256 `ac2bc8c0452ee898a85a6
 | training_data_44 | Cls | 1,135,961 | 1,088 | 40,920,016 |
 | training_data_03 | Eff | 527,429 | 644 | 19,004,355 |
 | training_data_03 | Cls | 527,440 | 644 | 19,004,806 |
+| training_data_03 | Seg | 526,359 | 644 | 18,965,830 |
 
 - Raw H&E Deep Zoom pyramids for these slides are generated (native 0.2522 µm/px) but are hosted separately
   (size exceeds GitHub Pages limits); location to be recorded here.
