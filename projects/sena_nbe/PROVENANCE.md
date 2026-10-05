@@ -1,6 +1,9 @@
 # Provenance: projects/sena_nbe
 
-## v1/wsi/cmu-1, v1/wsi/cmu-2 (Deep Zoom pyramids, generated 2026-10-05)
+## v1/wsi/cmu-1, v1/wsi/cmu-2 (Deep Zoom pyramids, generated 2026-10-05) — REMOVED 2026-10-06
+
+Removed from the current tree on 2026-10-06 when the project page switched to the PAIP2020 demo (no longer
+referenced). They remain in this repository's git history (commit 261bb83) for rollback.
 
 | slide | source (original file) | licence | original SHA-256 | original bytes |
 |---|---|---|---|---|
