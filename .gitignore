@@ -1,0 +1,19 @@
+# Public static asset warehouse: never commit raw slides, checkpoints, embeddings or secrets.
+*.svs
+*.ndpi
+*.mrxs
+*.scn
+*.vms
+*.tif
+*.tiff
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npz
+*.npy
+*.h5
+*.parquet
+.env
+*.key
+*.pem
