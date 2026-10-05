@@ -62,12 +62,13 @@ Annotation archive: PAIP2020 `training_data.zip`, SHA-256 `ac2bc8c0452ee898a85a6
   Source parquet SHA-256: 44 Eff `3133a356…7e5`, 44 Cls `2fe82f02…5887`, 03 Eff `a6221018…11ce`, 03 Cls `21f71097…e7a`.
 - Seg / Full: same package and settings, server 32 (`~/envs/sena34`, pip-freeze identical to the server-34 env),
   `run_segfull.sh` / `run_full_b1.sh`, batch 1 (the release allows batch > 1 only for Eff/Cls). Added per slide as
-  each run finishes. 03 Seg source parquet SHA-256 `06267283…242b5`.
+  each run finishes. Source parquet SHA-256: 03 Seg `06267283…242b5`, 44 Seg `6c19ac75…850c4`.
 
 | slide | mode | nuclei | files | bytes |
 |---|---|---|---|---|
 | training_data_44 | Eff | 1,135,916 | 1,088 | 40,918,250 |
 | training_data_44 | Cls | 1,135,961 | 1,088 | 40,920,016 |
+| training_data_44 | Seg | 1,133,610 | 1,088 | 40,835,230 |
 | training_data_03 | Eff | 527,429 | 644 | 19,004,355 |
 | training_data_03 | Cls | 527,440 | 644 | 19,004,806 |
 | training_data_03 | Seg | 526,359 | 644 | 18,965,830 |
