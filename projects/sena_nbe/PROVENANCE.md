@@ -83,3 +83,23 @@ Annotation archive: PAIP2020 `training_data.zip`, SHA-256 `ac2bc8c0452ee898a85a6
   Model inference and all overlay/GT coordinates stay in native level-0 pixels; the page scales them by
   web_width / native_width at display time (`<slide>.meta.json`).
 - training_data_03: 55,776 x 46,357 px, 17 levels, 13,420 tiles (+ .dzi, meta), 232,188,536 bytes; generated 2026-10-06 on server 35.
+- training_data_44: 52,788 x 40,843 px, 17 levels, 11,313 tiles (+ .dzi, meta); generated 2026-10-06 on server 35.
+
+### `<slide>/overlays/EffRouting/` (semantic-routing view for the page slider; format `nuclei-chunks/v2-routing`)
+- Geometry = the final Eff output (same nuclei and contours as `overlays/Eff`). Per nucleus additionally: the class the
+  Cls path gives the same detection (nearest Full-Cls candidate of the same tile within 3 px) and the rank of its tile
+  in the Stage-2 router order (Router 1, entropy, label-free). At budget f the page shows the Cls class for nuclei in
+  the first round(f x eligible) tiles and the Eff class elsewhere. Class-only view: unlike a real Stage-2 run,
+  detections/contours are not re-merged.
+- Inputs (server 34, read-only): frozen Eff parquet; Stage-2 quality dumps `pass1_cands`, `fullcls_cands`,
+  `routing_entropy.npz`. Converter `make_routing_chunks.py` (SHA-256 `b10fdc3a…154f2f`).
+- 03: 527,429 nuclei, all mapped to a tile, 527,314 matched to a Cls candidate, class differs for 54,839 at 100%;
+  44: 1,135,916 / 1,135,916 / 1,135,711, 145,763.
+
+### `<slide>/pred_area/<Mode>.json` (Predicted tumor area; model prediction, not ground truth)
+- Final deploy rule A-simple (TCGA protocol Amendment T-4), Protocol Z, computed from the nuclei of that mode:
+  Neoplastic core (100-um bins, t = 0.5, tissue) -> drop components < 0.1 mm2 -> add tissue bins within 500 um with
+  (Connective+Dead)/N >= 0.5 -> hole fill -> AND tissue. Exported as contour polygons (native level-0 px).
+  Converter `pred_tumor_area.py` (SHA-256 `693dac20…7f9`), frozen Track C / A helpers imported read-only.
+- Eff and Cls maps reproduce the PAIP post-hoc A_nodens Protocol-Z Dice of the same slides exactly
+  (03: 0.5648 / 0.7084; 44: 0.7375 / 0.9160). Seg maps use the Seg parquets (03: Dice 0.5591, 44: 0.7378).

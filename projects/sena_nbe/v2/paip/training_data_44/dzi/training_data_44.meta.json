@@ -1,0 +1,26 @@
+{
+ "source": "training_data_44.svs",
+ "native_dimensions": [
+  105576,
+  81686
+ ],
+ "native_mpp": 0.2522,
+ "web_dimensions": [
+  52788,
+  40843
+ ],
+ "web_mpp": 0.5044,
+ "display_scale_native_to_web": 0.5,
+ "levels": 17,
+ "tile_count": 11313,
+ "params": {
+  "tile_size": 510,
+  "overlap": 1,
+  "limit_bounds": false,
+  "format": "jpeg",
+  "quality": 50,
+  "levels_written": "0..16 of 18 (native top level omitted)"
+ },
+ "openslide_python": "1.4.6",
+ "openslide_lib": "4.0.1"
+}
