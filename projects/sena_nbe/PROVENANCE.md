@@ -73,5 +73,10 @@ Annotation archive: PAIP2020 `training_data.zip`, SHA-256 `ac2bc8c0452ee898a85a6
 | training_data_03 | Cls | 527,440 | 644 | 19,004,806 |
 | training_data_03 | Seg | 526,359 | 644 | 18,965,830 |
 
-- Raw H&E Deep Zoom pyramids for these slides are generated (native 0.2522 µm/px) but are hosted separately
-  (size exceeds GitHub Pages limits); location to be recorded here.
+### `<slide>/dzi/` (Raw H&E, web-display Deep Zoom)
+- Web-display resolution **0.5044 µm/px** (2x native 0.2522 µm/px): the native Deep Zoom pyramid without its top
+  level, written directly from the original slide with a single JPEG encoding at **quality 50**
+  (`make_dzi_web.py`; openslide-python 1.4.6, OpenSlide 4.0.1, Pillow 12.2.0; tile 510, overlap 1, limit_bounds False).
+  Model inference and all overlay/GT coordinates stay in native level-0 pixels; the page scales them by
+  web_width / native_width at display time (`<slide>.meta.json`).
+- training_data_03: 55,776 x 46,357 px, 17 levels, 13,420 tiles (+ .dzi, meta), 232,188,536 bytes; generated 2026-10-06 on server 35.
