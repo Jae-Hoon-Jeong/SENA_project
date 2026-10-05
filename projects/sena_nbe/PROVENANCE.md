@@ -26,3 +26,48 @@
 
 - Attribution text used on the page: "CMU-1.svs / CMU-2.svs, OpenSlide test data (Carnegie Mellon University), CC0 1.0."
 - Not for clinical or diagnostic use.
+
+## v2/paip (PAIP2020 demo; derived assets only, added 2026-10-06)
+
+**Source data.** PAIP2020 challenge dataset (Seoul National University Hospital / Pathology AI Platform),
+licensed **CC BY-NC 4.0** (https://creativecommons.org/licenses/by-nc/4.0/) per the challenge Rules page
+(https://paip2020.grand-challenge.org/). Used here for a **non-commercial academic project page**.
+"De-identified pathology images and annotations used in this research were prepared and provided by the Seoul
+National University Hospital by a grant of the Korea Health Technology R&D Project through the Korea Health
+Industry Development Institute (KHIDI), funded by the Ministry of Health & Welfare, Republic of Korea (grant number:
+HI18C0316)." **Changes were made**: everything below is derived; the original `.svs` slides are not stored here.
+
+| slide | original file | original SHA-256 |
+|---|---|---|
+| training_data_44 | PAIP2020 `training_data_44.svs` | `1739f2560f653f1eca914c5d646a56648c0553ad742a8b15eb8db47e3d9a7858` |
+| training_data_03 | PAIP2020 `training_data_03.svs` | `30982cb66b21c5a244981154853045f95bbcc6b5bd11c6072b790f8451acee06` |
+
+Annotation archive: PAIP2020 `training_data.zip`, SHA-256 `ac2bc8c0452ee898a85a6a71ce0c041db41ec6229cded097cbf9cbb1ff752d3f`.
+
+### `<slide>/gt/whole_tumor_area.json` (reference layer: pathologist ground truth)
+- PAIP2020 Whole Tumor Area annotation (`<slide>.xml`, Aperio XML, MicronsPerPixel 0.2522), vertices copied
+  unchanged into JSON (level-0 px). No smoothing/simplification. PAIP2020 has no Viable Tumor Area annotation;
+  none is provided. Converter `paip_xml_to_json.py` (SHA-256 `5cfd789b…37ca`).
+- training_data_44: 1 region, 1,011 vertices; training_data_03: 1 region, 1,209 vertices.
+
+### `<slide>/overlays/<Mode>/` (model layer: nucleus-level predictions; not a tumour segmentation)
+- Format `nuclei-chunks/v1` (`index.json`, `coarse/<cx>_<cy>.bin` 16384-px chunks, `fine/<cx>_<cy>.bin` 2048-px
+  chunks; see the converter docstring). Converter `make_overlay_chunks.py` (SHA-256 `5f1e5bba…1fd68`).
+  Each record is one row of the model output: centroid, type id (0 Neoplastic, 1 Inflammatory, 2 Connective,
+  3 Dead, 4 Epithelial — as stored by the release), `confidence` quantised to round(255·conf), contour resampled
+  to 12 points (int8 offsets, level-0 px).
+- Model: frozen release v1.0.1 package (student `edef2edd…8864`, refiner `fdeaeba8…adb4`, config `a5f80512…358f`,
+  system.json `19835c09…6cf02`, `wsi_infer.py` `3b5035b2…288a`), full-slide inference, 256-px tiles / 64-px overlap.
+- Eff / Cls (available now): server-34 outputs of 2026-10-04 (`run_paipfull.sh`; Eff batch 1, Cls batch 4).
+  Source parquet SHA-256: 44 Eff `3133a356…7e5`, 44 Cls `2fe82f02…5887`, 03 Eff `a6221018…11ce`, 03 Cls `21f71097…e7a`.
+- Seg / Full: same package, inference in progress (to be added).
+
+| slide | mode | nuclei | files | bytes |
+|---|---|---|---|---|
+| training_data_44 | Eff | 1,135,916 | 1,088 | 40,918,250 |
+| training_data_44 | Cls | 1,135,961 | 1,088 | 40,920,016 |
+| training_data_03 | Eff | 527,429 | 644 | 19,004,355 |
+| training_data_03 | Cls | 527,440 | 644 | 19,004,806 |
+
+- Raw H&E Deep Zoom pyramids for these slides are generated (native 0.2522 µm/px) but are hosted separately
+  (size exceeds GitHub Pages limits); location to be recorded here.
