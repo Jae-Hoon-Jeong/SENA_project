@@ -103,3 +103,11 @@ Annotation archive: PAIP2020 `training_data.zip`, SHA-256 `ac2bc8c0452ee898a85a6
   Converter `pred_tumor_area.py` (SHA-256 `693dac20…7f9`), frozen Track C / A helpers imported read-only.
 - Eff and Cls maps reproduce the PAIP post-hoc A_nodens Protocol-Z Dice of the same slides exactly
   (03: 0.5648 / 0.7084; 44: 0.7375 / 0.9160). Seg maps use the Seg parquets (03: Dice 0.5591, 44: 0.7378).
+
+### `<slide>/pred_area_d100/<Mode>.json` (displayed since 2026-10-06; POST-HOC variant)
+- Same A-simple rule with the expansion distance **d = 100 um instead of 500 um** (user request 2026-10-06, made after the
+  PAIP confirmation results were known; post-hoc, not a preregistered rule). Converter `pred_tumor_area_d.py`
+  (SHA-256 `b24893dc…444`) = `pred_tumor_area.py` with d as a parameter; with d = 500 it reproduces the
+  `pred_area/` files above exactly (6/6 regions and Dice identical).
+- Dice vs GT (same slides): 03 Eff 0.5803 / Cls 0.6653 / Seg 0.5762; 44 Eff 0.7719 / Cls 0.9336 / Seg 0.7723.
+- The d = 500 files in `pred_area/` are kept unchanged.
