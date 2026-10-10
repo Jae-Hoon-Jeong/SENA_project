@@ -111,3 +111,45 @@ Annotation archive: PAIP2020 `training_data.zip`, SHA-256 `ac2bc8c0452ee898a85a6
   `pred_area/` files above exactly (6/6 regions and Dice identical).
 - Dice vs GT (same slides): 03 Eff 0.5803 / Cls 0.6653 / Seg 0.5762; 44 Eff 0.7719 / Cls 0.9336 / Seg 0.7723.
 - The d = 500 files in `pred_area/` are kept unchanged.
+
+## v2/fourier (Fourier-epicycle illustration of PanNuke ground-truth nucleus contours, added 2026-10-11)
+
+**Source data.** PanNuke (Gamper et al., "PanNuke: an open pan-cancer histology dataset for nuclei instance
+segmentation and classification", ECDP 2019; arXiv:2003.10778), Fold 3 `images.npy` / `masks.npy`, licensed
+**CC BY-NC-SA 4.0** (https://creativecommons.org/licenses/by-nc-sa/4.0/). The derived videos and posters in this
+directory are therefore distributed under **CC BY-NC-SA 4.0**. Non-commercial academic use.
+
+**Nuclei shown** (ground-truth instances; neoplastic channel; 256x256 PanNuke patches):
+
+| file prefix | Fold 3 image idx | instance id | class | tissue | area (px) | contour error K=10 |
+|---|---|---|---|---|---|---|
+| nucleus1 | 2479 | 312 | Neoplastic | Testis | 4788 | 0.77% |
+| nucleus2 | 587 | 168 | Neoplastic | Breast | 4200 | 0.65% |
+| nucleus3 | 613 | 30 | Neoplastic | Breast | 3695 | 0.77% |
+| nucleus4 | 588 | 80 | Neoplastic | Breast | 3653 | 0.96% |
+
+Selected for illustration only: among 17,697 Fold 3 nuclei, the fourth quintile of K=3 reconstruction error
+(0.0305-0.0391; pool 3,556), four large picks. Not a performance result; no model output is shown.
+
+**Generation.** Outer contour (`cv2.findContours`, external, no approximation) resampled to 128 points by arc length;
+complex FFT / N; a K-harmonic reconstruction keeps c0 and c_{+-1..+-K}; epicycles chained +1, -1, +2, -2, ...
+Rendering: matplotlib FuncAnimation, 120 frames at 20 fps (6 s loop), original H&E colours (no stain normalisation),
+crop = nucleus bounding box + 12 px margin, shifted inside the patch (no padding). Style "W2": white circles and radii
+(radius lw 1.2) with soft dark shadow, lime (#B6FF3B) reconstructed contour, black dashed ground-truth contour,
+red tip. Error = mean distance between corresponding samples of the reconstruction and the 128-point ground-truth contour, divided by the equivalent-circle radius sqrt(area / pi).
+`nucleus1_harmonics_K1-10` shows K = 1, 2, 3, 5, 7, 10; `nucleus*_epicycles_K10` shows K = 10.
+Encoding: H.264 High, yuv420p, CRF 23, re-muxed with `-movflags +faststart`, no audio. Posters (`.jpg`) are the
+final frame (`ffmpeg -sseof -0.05 -frames:v 1 -q:v 3`). GIF versions were not published (about 20x larger).
+
+| file | bytes | SHA-256 |
+|---|---|---|
+| `v2/fourier/nucleus1_epicycles_K10.jpg` | 70344 | `ba6af9962898d822bf1cf484564114966e90d8803bd4853b5c13c52092f4f16f` |
+| `v2/fourier/nucleus1_epicycles_K10.mp4` | 348487 | `eadf015b626ba7aebd9c46b5dae074b9db3aa69e7fb8ead451f60c5ddd47593b` |
+| `v2/fourier/nucleus1_harmonics_K1-10.jpg` | 292829 | `018c67d2d8480a7bb640b3dfb41e1da13a9fe00f5e53f17be2be05de7ac5a3f4` |
+| `v2/fourier/nucleus1_harmonics_K1-10.mp4` | 1497576 | `4d0417b5763fbd39b33db80994c415a10dbd792dc200d5ad958bd9f5c5f2fb2f` |
+| `v2/fourier/nucleus2_epicycles_K10.jpg` | 48838 | `2dd76cd5ec07e53a1bd843a557bce3cdd2ba64542b63519fa615aa002d3eca07` |
+| `v2/fourier/nucleus2_epicycles_K10.mp4` | 261463 | `05c0cd770ba2f22b5871fe05eddf7126b0939e96aa53fcd8ddae5f060628d94e` |
+| `v2/fourier/nucleus3_epicycles_K10.jpg` | 48690 | `48a9b40de8459521f207615100aa6b554433a27cb405f98e1c98b5d3b35fcba6` |
+| `v2/fourier/nucleus3_epicycles_K10.mp4` | 249751 | `ec0a9948e5bc136ca86cb84649b1346221d6b0b164f0eee882d04a66dbd28692` |
+| `v2/fourier/nucleus4_epicycles_K10.jpg` | 50747 | `0f97744fa40f2d41c904c778e90945fcb1945c29b3b02c87f68c4bede404477d` |
+| `v2/fourier/nucleus4_epicycles_K10.mp4` | 266075 | `fd99ca86db50f50b119756cdb5da9aeddc39fb3c4ae990efd46db84a71623b92` |
